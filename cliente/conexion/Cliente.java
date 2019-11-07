@@ -11,7 +11,7 @@ public class Cliente extends Thread{
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	// DATOS NECESARIOS PARA LA CONEXION
-	private static final String host ="192.168.1.107";
+	private static final String host ="192.168.56.1";
 	private static final int puerto = 5000;
 	private int jugador;
 	private Object objLeido;
@@ -33,18 +33,28 @@ public class Cliente extends Thread{
 		}
 	}
 	
-//	@Override
-//	public void run(){
-//		while( true ){
-//			try {
-//				objLeido = (Object)in.readObject();
-//				System.out.println(objLeido);
-//			} catch (ClassNotFoundException | IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+	@Override
+	public void run(){
+		while( true ){
+			try {
+				objLeido = (Object)in.readObject();
+				System.out.println("cliente conectado");
+				System.out.println(objLeido);
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			finally {
+				System.out.println("cliente desconectado");
+				try {
+					socket.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	
 	public ObjectOutputStream getOut() {
 		return out;
