@@ -1,40 +1,40 @@
 package conexion;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import comunicaciones.MsjMapa;
+import ui.EscucharTeclaInterface;
+import ui.MarioJFrame;
 
-import javax.swing.Timer;
+public class ControladorCliente implements EscucharTeclaInterface {
 
-
-public class ControladorCliente {
-	
 	private Socket socket;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	// DATOS NECESARIOS PARA LA CONEXION
-	private static final String host ="192.168.1.107";
+	private static final String host = "127.0.0.1";
 	private static final int puerto = 5000;
 	private int jugador;
 	private Object objLeido;
 	private int idUsuario;
 
+	MarioJFrame marioJFrame;
 
 	public static void main(String[] args) {
-		
+
 		// GENERAMOS LA CONEXION
 		try {
+			System.out.println("cliente iniciando");
 			ControladorCliente cc = new ControladorCliente();
-			//cc.jugador = 0;
-			cc.socket = new Socket(host,puerto);
-			cc.out = new ObjectOutputStream( cc.socket.getOutputStream());
-			cc.in = new ObjectInputStream( cc.socket.getInputStream() );
+			// cc.jugador = 0;
+			cc.socket = new Socket(host, puerto);
+			cc.out = new ObjectOutputStream(cc.socket.getOutputStream());
+			cc.in = new ObjectInputStream(cc.socket.getInputStream());
 			cc.HiloDeJuego();
-			
+
 		} catch (UnknownHostException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -42,14 +42,14 @@ public class ControladorCliente {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public ObjectOutputStream getOut() {
 		return out;
 	}
 
-	public Object escuchar(){
+	public Object escuchar() {
 		try {
 			System.out.println(in.toString());
 			Object peticion = in.readObject();
@@ -62,25 +62,25 @@ public class ControladorCliente {
 		}
 		return null;
 	}
-	
-	public void enviarMensaje( Object obj ){
+
+	public void enviarMensaje(Object obj) {
 		try {
 			out.reset(); // USAR SIEMPRE
 			out.writeObject(obj);
-			//out.reset(); // USAR SIEMPRE
+			// out.reset(); // USAR SIEMPRE
 			out.flush();
-			
-			objLeido = (Object)in.readObject();
-			if( objLeido instanceof Integer ){
-				jugador = (Integer)objLeido; // REPRESENTA AL JUGADOR EN JUEGO
+
+			objLeido = (Object) in.readObject();
+			if (objLeido instanceof Integer) {
+				jugador = (Integer) objLeido; // REPRESENTA AL JUGADOR EN JUEGO
 			}
 			System.out.println(objLeido);
-			
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	public int getJugador() {
 		return jugador;
 	}
@@ -89,93 +89,85 @@ public class ControladorCliente {
 		this.jugador = jugador;
 	}
 
-	public Object leerMensaje(){
+	public Object leerMensaje() {
 		return objLeido;
 	}
-	
+
 	public ObjectInputStream getIn() {
 		return in;
 	}
 
-	public void cerrarSocket(){
+	public void cerrarSocket() {
 		try {
 			enviarMensaje("KILL THREAD");
 			out.close();
-			in.close();					
+			in.close();
 			socket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	public int getIdUsuario() {
 		return idUsuario;
 	}
-	
+
 	public void setIdUsuario(int id) {
 		this.idUsuario = id;
 	}
-	
-	public void HiloDeJuego(){
-		Thread hiloDeJuego = new Thread( new Runnable(){
-			public void run(){
-				
-				while( true ){
-				
-					Object peticion = clientSocket.escuchar();
-		
-					if( peticion instanceof EscenarioBean ){
-						System.out.println("Se recibio el escenario");
-				
-						dibujarEscenario();
-						//direccion = 0;
-					}else if( peticion.equals("DIRECCION")){
-						System.out.println("NOS PIDIERON DIRECCION");
-						try {
-							
-							clientSocket.getOut().writeObject(new DireccionBean(direccion,clientSocket.getJugador(), idPartida ));
-							clientSocket.getOut().flush();
-							System.out.println("ENVIAMOS DIRECCION : " + direccion);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						// ARREGLAR.. NO COORDINA BIEN
-						timer = new Timer(1000, new ActionListener() {			
-							int elapsedSeconds = 3;
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								elapsedSeconds--;
-						        lblTimer.setText(Integer.toString(elapsedSeconds));
-						        if(elapsedSeconds == 0){
-						           elapsedSeconds = 3;
-						           timer.restart();
-						        }
-							}
-						});
-						timer.start();
-					}else if( peticion.equals("TERMINO")){
-						/*System.out.println("SE TERMINO LA PARTIDA");
-						lobby.setVisible(true);
-						try {
-							
-							dispose();
-							System.out.println(" CIERRO ESCENARIO");
-							this.finalize();	
-							break;
-						} catch (Throwable e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}*/
+
+	private void iniciarMapa(MsjMapa msjMapa) {
+		marioJFrame = new MarioJFrame(msjMapa.getMapa().getTablero(), msjMapa.getMapa().getTablero().length, this);
+
+	}
+
+	public void HiloDeJuego() {
+		Thread hiloDeJuego = new Thread(new Runnable() {
+			public void run() {
+
+				while (true) {
+
+					Object peticion = escuchar();
+					switch (peticion.getClass().getName()) {
+					case "MsjMapa":
+						iniciarMapa((MsjMapa) peticion);
+						break;
+
+					case "MsjRedibujar":
+						redibujarMapa((MsjRedibujar) peticion);
+						break;
+
+					default:
+						break;
 					}
 
-				}// FIN WHILE TRUE
-				
+				} // FIN WHILE TRUE
+
 			}
 		});
 		hiloDeJuego.start();
 	}
 
+	private void redibujarMapa(MsjRedibujar peticion) {
+		marioJFrame.redibujar(peticion.getMapa().getTablero());
+	}
+
+	@Override
+	public void teclaPresionada(int tecla) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int getTeclaPresionada() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void limpiarTeclaPresionada() {
+		// TODO Auto-generated method stub
+
+	}
 
 }

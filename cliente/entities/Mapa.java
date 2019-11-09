@@ -17,10 +17,10 @@ import javax.swing.JOptionPane;
 import entities.Dado;
 import entities.Minijuego;
 import entities.Personaje;
-import entities.casilla.Casilla;
-import entities.casilla.CasillaGanarEstrella;
-import entities.casilla.CasillaParalizar;
-import entities.casilla.CasillaSumarRestarMonedas;
+import entities.casillas.Casilla;
+import entities.casillas.CasillaGanarEstrella;
+import entities.casillas.CasillaParalizar;
+import entities.casillas.CasillaSumarRestarMonedas;
 import entities.threads.EsperarThread;
 
 import ui.EscucharTeclaInterface;
@@ -266,7 +266,7 @@ public class Mapa implements EscucharTeclaInterface {
 		int item = -1;
 		if (personaje.getItems().size() > 0) {
 			infoFrame.setEstado("seleccion");
-			int respItem = JOptionPane.showConfirmDialog(null, "¿Prefiere usar un item en este turno?", "Alerta!",
+			int respItem = JOptionPane.showConfirmDialog(null, "ï¿½Prefiere usar un item en este turno?", "Alerta!",
 					JOptionPane.YES_NO_OPTION);
 			if (respItem == 0) {
 				// Seleccionar item

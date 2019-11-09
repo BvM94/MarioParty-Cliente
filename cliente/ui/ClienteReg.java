@@ -30,21 +30,6 @@ public class ClienteReg extends JFrame {
 	
 	JComboBox comboBox;
 	protected Socket miSocket;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ClienteReg frame = new ClienteReg();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -73,7 +58,7 @@ public class ClienteReg extends JFrame {
 					
 					darAltaJugador();
 					
-					btnEntrar.setEnabled(false);;;
+					btnEntrar.setEnabled(false);
 					
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -97,6 +82,7 @@ public class ClienteReg extends JFrame {
 		JLabel lblNewLabel = new JLabel("Ingrese nick");
 		lblNewLabel.setBounds(10, 89, 94, 14);
 		contentPane.add(lblNewLabel);
+		setVisible(true);
 	}
 
 	protected void darAltaJugador() throws IOException {

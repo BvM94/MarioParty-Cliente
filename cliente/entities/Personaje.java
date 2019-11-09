@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import entities.Articulo;
-import entities.casilla.Casilla;
+import entities.casillas.Casilla;
 
 public class Personaje implements Comparable<Personaje> {
 

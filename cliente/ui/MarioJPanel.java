@@ -14,10 +14,10 @@ import javax.swing.RepaintManager;
 import javax.swing.border.EmptyBorder;
 
 import entities.Personaje;
-import entities.casilla.Casilla;
-import entities.casilla.CasillaGanarEstrella;
-import entities.casilla.CasillaParalizar;
-import entities.casilla.CasillaSumarRestarMonedas;
+import entities.casillas.Casilla;
+import entities.casillas.CasillaGanarEstrella;
+import entities.casillas.CasillaParalizar;
+import entities.casillas.CasillaSumarRestarMonedas;
 
 public class MarioJPanel extends JPanel {
 

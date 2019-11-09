@@ -1,4 +1,4 @@
-package mensajes;
+package comunicaciones;
 
 public class MsjDesicion {
 

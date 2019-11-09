@@ -9,7 +9,9 @@ import java.net.Socket;
 
 import javax.swing.JFrame;
 
-import entities.casilla.Casilla;
+import entities.casillas.Casilla;
+
+
 
 
 

@@ -1,14 +1,14 @@
-package mensajes;
+package conexion;
 
 import java.io.Serializable;
 
 import entities.Mapa;
 
-public class MsjMapa implements Serializable {
+public class MsjRedibujar implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Mapa mapa;
 	
-	public MsjMapa(Mapa mapa) {
+	public MsjRedibujar(Mapa mapa) {
 		this.mapa = mapa;
 	}
 	
