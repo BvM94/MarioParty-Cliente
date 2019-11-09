@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 
 import comunicaciones.AltaJugador;
+import conexion.ControladorCliente;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -27,6 +28,7 @@ public class ClienteReg extends JFrame {
 	private JTextField textFieldNick;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
+	private ControladorCliente cc;
 	
 	JComboBox comboBox;
 	protected Socket miSocket;
@@ -34,7 +36,9 @@ public class ClienteReg extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ClienteReg() {
+	public ClienteReg(ControladorCliente cc) {
+		this.cc = cc;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -51,10 +55,10 @@ public class ClienteReg extends JFrame {
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					 miSocket=new Socket("127.0.0.1",5000);
+//					 miSocket=new Socket("127.0.0.1",5000);
 
-					out = new ObjectOutputStream(miSocket.getOutputStream());
-					in = new ObjectInputStream( miSocket.getInputStream() );
+//					out = new ObjectOutputStream(miSocket.getOutputStream());
+//					in = new ObjectInputStream( miSocket.getInputStream() );
 					
 					darAltaJugador();
 					
@@ -99,8 +103,6 @@ public class ClienteReg extends JFrame {
 				color=Color.BLUE;
 				break;
 		}
-		
-		out.writeObject(new AltaJugador(textFieldNick.getText(), color));
-		
+		cc.enviarMensaje(new AltaJugador(textFieldNick.getText(), color));		
 	}
 }

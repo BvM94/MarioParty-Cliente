@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import comunicaciones.MsjMapa;
+import comunicaciones.MsjRedibujar;
+import ui.ClienteReg;
 import ui.EscucharTeclaInterface;
 import ui.MarioJFrame;
 
@@ -29,6 +31,7 @@ public class ControladorCliente implements EscucharTeclaInterface {
 		try {
 			System.out.println("cliente iniciando");
 			ControladorCliente cc = new ControladorCliente();
+			ClienteReg registro = new ClienteReg(cc);
 			// cc.jugador = 0;
 			cc.socket = new Socket(host, puerto);
 			cc.out = new ObjectOutputStream(cc.socket.getOutputStream());

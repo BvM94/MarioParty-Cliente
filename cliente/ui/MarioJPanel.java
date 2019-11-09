@@ -111,5 +111,6 @@ public class MarioJPanel extends JPanel {
 		lienzo.setPaint(Color.CYAN);
 		lienzo.drawRect((posicionX + (alturaPersonaje / 2)) + borde, posicionY + borde, alturaPersonaje / 2, alturaPersonaje / 2);
 	}
+	
 
 }

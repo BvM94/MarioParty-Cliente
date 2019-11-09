@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -29,7 +30,7 @@ import ui.MarioJFrame;
 import ui.MarioStatsFrame;
 import ui.TirarDadoFrame;
 
-public class Mapa implements EscucharTeclaInterface {
+public class Mapa implements EscucharTeclaInterface,Serializable {
 
 	private Dado dado;
 	private Casilla[][] tablero;

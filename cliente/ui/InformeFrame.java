@@ -5,8 +5,8 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import entities.Personaje;
-import entities.casilla.Casilla;
-import entities.casilla.CasillaGanarEstrella;
+import entities.casillas.Casilla;
+import entities.casillas.CasillaGanarEstrella;
 
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
