@@ -1,7 +1,7 @@
-/conexion/
 /entities/
-/imagenes/
-/mensajes/
 /minijuegos/
-/servidor/
 /ui/
+/conexion/
+/mensajes/
+/packcliente/
+/comunicaciones/

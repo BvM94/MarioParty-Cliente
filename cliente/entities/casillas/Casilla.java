@@ -1,4 +1,4 @@
-package entities.casilla;
+package entities.casillas;
 import entities.Mapa;
 import entities.Personaje;
 import entities.threads.EsperarThread;

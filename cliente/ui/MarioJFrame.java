@@ -2,6 +2,10 @@ package ui;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 import javax.swing.JFrame;
 
@@ -14,7 +18,35 @@ public class MarioJFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private MarioJPanel panel;
 	private boolean escucharTeclas = false;
+	private Socket socket;
+	private ObjectOutputStream out;
+	private ObjectInputStream in;
 
+	
+	public MarioJFrame(Socket socket,ObjectOutputStream out, ObjectInputStream in) {
+		// Full Screen
+		//setExtendedState(MAXIMIZED_BOTH);
+		setSize(500,500);
+
+		// cerrar con la X la ventana
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+		setTitle(Textos.TITULO_PRINCIPAL);
+		setLocationRelativeTo(null);
+
+		this.socket=socket;
+		this.in=in;
+		this.out=out;
+		
+		
+		
+		HiloDeJuego();
+		
+		
+		
+	}
+
+	
 	public MarioJFrame(Casilla[][] tablero, int cantidadCasillas, EscucharTeclaInterface escucharTeclaInterface) {
 		// Full Screen
 		//setExtendedState(MAXIMIZED_BOTH);
@@ -26,6 +58,8 @@ public class MarioJFrame extends JFrame {
 		setTitle(Textos.TITULO_PRINCIPAL);
 		setLocationRelativeTo(null);
 
+	
+		
 		panel = new MarioJPanel(tablero, cantidadCasillas);
 		setContentPane(panel);
 
@@ -74,5 +108,35 @@ public class MarioJFrame extends JFrame {
 		panel.redibujar(tablero);
 		repaint();
 	}
+	
+	
+	
+	
+	public void HiloDeJuego() {
+		Thread hiloDeJuego = new Thread(new Runnable() {
+			
+
+			public void run() {
+				Object peticion = null;
+				while (true) {
+					try {
+						peticion = in.readObject();
+					} catch (ClassNotFoundException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					switch (peticion.getClass().getSimpleName()) {
+					case "Devolver":
+						System.out.println("Recibo de vuelta string");
+
+						break;
+					}
+				} // FIN WHILE TRUE
+			}
+
+		});
+		hiloDeJuego.start();
+	}
+	
 
 }
