@@ -39,10 +39,8 @@ public class ControladorCliente implements EscucharTeclaInterface {
 			cc.HiloDeJuego();
 
 		} catch (UnknownHostException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -68,9 +66,9 @@ public class ControladorCliente implements EscucharTeclaInterface {
 
 	public void enviarMensaje(Object obj) {
 		try {
-			out.reset(); // USAR SIEMPRE
+			// USAR SIEMPRE los tres
+			out.reset(); 
 			out.writeObject(obj);
-			// out.reset(); // USAR SIEMPRE
 			out.flush();
 
 			objLeido = (Object) in.readObject();

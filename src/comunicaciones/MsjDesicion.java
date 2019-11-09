@@ -1,6 +1,8 @@
 package comunicaciones;
 
-public class MsjDesicion {
+import java.io.Serializable;
+
+public class MsjDesicion implements Serializable{
 
 	private int desicion;
 	

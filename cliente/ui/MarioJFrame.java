@@ -11,10 +11,6 @@ import javax.swing.JFrame;
 
 import entities.casillas.Casilla;
 
-
-
-
-
 public class MarioJFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -24,11 +20,10 @@ public class MarioJFrame extends JFrame {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 
-	
-	public MarioJFrame(Socket socket,ObjectOutputStream out, ObjectInputStream in) {
+	public MarioJFrame(Socket socket, ObjectOutputStream out, ObjectInputStream in) {
 		// Full Screen
-		//setExtendedState(MAXIMIZED_BOTH);
-		setSize(500,500);
+		// setExtendedState(MAXIMIZED_BOTH);
+		setSize(500, 500);
 
 		// cerrar con la X la ventana
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -36,23 +31,18 @@ public class MarioJFrame extends JFrame {
 		setTitle(Textos.TITULO_PRINCIPAL);
 		setLocationRelativeTo(null);
 
-		this.socket=socket;
-		this.in=in;
-		this.out=out;
-		
-		
-		
+		this.socket = socket;
+		this.in = in;
+		this.out = out;
+
 		HiloDeJuego();
-		
-		
-		
+
 	}
 
-	
 	public MarioJFrame(Casilla[][] tablero, int cantidadCasillas, EscucharTeclaInterface escucharTeclaInterface) {
 		// Full Screen
-		//setExtendedState(MAXIMIZED_BOTH);
-		setSize(500,500);
+		// setExtendedState(MAXIMIZED_BOTH);
+		setSize(500, 500);
 
 		// cerrar con la X la ventana
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -60,8 +50,6 @@ public class MarioJFrame extends JFrame {
 		setTitle(Textos.TITULO_PRINCIPAL);
 		setLocationRelativeTo(null);
 
-	
-		
 		panel = new MarioJPanel(tablero, cantidadCasillas);
 		setContentPane(panel);
 
@@ -92,7 +80,7 @@ public class MarioJFrame extends JFrame {
 						break;
 
 					default:
-						System.out.println("La tecla "+e.getKeyChar()+"es invalida, vuelva a ingresar");
+						System.out.println("La tecla " + e.getKeyChar() + "es invalida, vuelva a ingresar");
 						escucharTeclas = true;
 						break;
 					}
@@ -110,13 +98,9 @@ public class MarioJFrame extends JFrame {
 		panel.redibujar(tablero);
 		repaint();
 	}
-	
-	
-	
-	
+
 	public void HiloDeJuego() {
 		Thread hiloDeJuego = new Thread(new Runnable() {
-			
 
 			public void run() {
 				Object peticion = null;
@@ -139,6 +123,5 @@ public class MarioJFrame extends JFrame {
 		});
 		hiloDeJuego.start();
 	}
-	
 
 }
